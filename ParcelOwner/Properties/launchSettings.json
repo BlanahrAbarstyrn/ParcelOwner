@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Profile 1": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Autodesk\\AutoCAD 2025\\acad.exe",
+      "commandLineArgs": "/b \"C:\\vs_projects\\ParcelOwner\\ParcelOwner\\start.scr\""
+    }
+  }
+}

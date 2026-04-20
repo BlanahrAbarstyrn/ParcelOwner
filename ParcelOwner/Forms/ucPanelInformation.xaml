@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="ParcelOwner.Forms.ucPanelInformation"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ParcelOwner.Forms"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="pack://application:,,,/ParcelOwner;component/Forms/AppStyles.xaml" />
+    </UserControl.Resources>
+
+    <Grid Style="{StaticResource MainGrid}" VerticalAlignment="Top" Background="WhiteSmoke">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Label Content="Footage price:" Grid.Row="0" Grid.Column="0" />
+        <TextBox Name="TxtFootagePrice" Grid.Row="0" Grid.Column="0" MinWidth="75" HorizontalAlignment="Right" HorizontalContentAlignment="Right"
+                 d:Text="150.0" PreviewTextInput="TxtFootagePrice_PreviewTextInput" Text="{Binding FootagePrice}"/>
+
+        <ListBox Grid.Row="1" Grid.Column="0" Height="150"
+                 d:ItemsSource="{d:SampleData ItemCount=5}"
+                 ItemsSource="{Binding ListOfAddedParcels}"
+                 SelectionChanged="ListBox_SelectionChanged" MouseDoubleClick="ListBox_MouseDoubleClick" />
+
+        <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+            <Button Name="BtnNew" Content="New" Click="BtnNew_Click" />
+            <Button Name="BtnExport" Content="Export" Click="BtnExport_Click" />
+            <Button Name="BtnImport" Content="Import" Click="BtnImport_Click" />
+        </StackPanel>
+
+        <Label Grid.Row="3" Grid.Column="0" MinHeight="50" VerticalContentAlignment="Top">
+            <TextBlock TextWrapping="WrapWithOverflow"
+                       d:Text="Just some information"
+                       Text="{Binding Information, UpdateSourceTrigger=PropertyChanged}" />
+        </Label>
+
+    </Grid>
+</UserControl>
