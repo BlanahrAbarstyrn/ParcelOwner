@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Runtime.CompilerServices;
 
 namespace ParcelOwner.Forms
@@ -19,68 +7,31 @@ namespace ParcelOwner.Forms
     /// <summary>
     /// Interaction logic for ParcelProperties.xaml
     /// </summary>
-    public partial class ParcelProperties : Window, INotifyPropertyChanged
+    public partial class ParcelProperties : Window
     {
         // * * * * * * * * * * * * * Variables
-        private Classes.ParcelObject m_CurrentParcel = null;
-
-        public Dictionary<int, string> SoldValues
-        {
-            get
-            {
-                return new Dictionary<int, string>()
-                {
-                    { 0, "For Sale" },
-                    { 1, "Already Sold" }
-                };
-            }
-        }
-
-        public string Number { get; }
-
-        public int Sold { get; set; }
-
-        public string OwnerName { get; set; }
-
-        public string Price { get; }
-
-        public string Area { get; }
-
-            
+        private Classes.ParcelObjectViewItem m_CurrentParcel = null;
+         
 
         // * * * * * * * * * * * * * Constructor
         public ParcelProperties(Classes.ParcelObject po)
         {
             InitializeComponent();
 
-            m_CurrentParcel = po;
+            //m_CurrentParcel = po;
+            m_CurrentParcel = new Classes.ParcelObjectViewItem(po);
 
-            Number = po.Number.ToString();
-            Sold = po.IsSold;
-            OwnerName = po.Name;
-            Price = po.TotalPriceAsstring;
-            Area = po.Area.ToString("0.0m²");
+            DataContext = m_CurrentParcel;
 
-            OnPropertyChanged("Number");
-            OnPropertyChanged("Sold");
-            OnPropertyChanged("OwnerName");
-            OnPropertyChanged("Price");
-            OnPropertyChanged("Area");
         }
 
 
         // * * * * * * * * * * * * * Events
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "") => PropertyChanged?.Invoke(this,
-            new PropertyChangedEventArgs(propertyName));
 
         private void BtnOK_Click(object sender, RoutedEventArgs e)
         {
-            m_CurrentParcel.IsSold = Sold;
-            if (m_CurrentParcel.IsSold != 0)
-            {
-                m_CurrentParcel.Name = OwnerName;
-            }
+            m_CurrentParcel.UpdateOwner();
+
             this.Close();
         }
 
@@ -89,14 +40,8 @@ namespace ParcelOwner.Forms
             this.Close();
         }
 
-        private void BtnOK_MouseEnter(object sender, MouseEventArgs e)
-        {
 
-        }
 
-        private void OK(object sender, RoutedEventArgs e)
-        {
 
-        }
     }
 }
