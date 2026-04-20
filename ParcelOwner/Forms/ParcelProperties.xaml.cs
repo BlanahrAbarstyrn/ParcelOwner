@@ -1,6 +1,5 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using System.Runtime.CompilerServices;
+﻿using System.Windows;
+
 
 namespace ParcelOwner.Forms
 {

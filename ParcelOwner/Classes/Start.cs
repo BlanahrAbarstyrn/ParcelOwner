@@ -2,7 +2,6 @@
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Windows;
 using System;
 using System.Collections.Generic;
