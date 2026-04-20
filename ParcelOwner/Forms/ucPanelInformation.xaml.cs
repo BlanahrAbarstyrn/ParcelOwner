@@ -1,5 +1,6 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -128,12 +129,60 @@ namespace ParcelOwner.Forms
 
         private void BtnExport_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: complete function
+            if (AutoCADCommands.AllParcels.Count == 0)
+            {
+                MessageBox.Show("There are no parcels to export.");
+                return;
+            }
+
+            Microsoft.Win32.SaveFileDialog sfd = new Microsoft.Win32.SaveFileDialog();
+            sfd.Filter = "Excel file|*.csv";
+            sfd.FilterIndex = 1;
+
+            if (sfd.ShowDialog() == true)
+            {
+                System.IO.TextWriter writer = System.IO.File.CreateText(sfd.FileName);
+                foreach (Classes.ParcelObject po in AutoCADCommands.AllParcels)
+                {
+                    writer.WriteLine(po.Export());
+                }
+                writer.Close();
+            }
         }
 
         private void BtnImport_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: complete function
+            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+            ofd.Filter = "Excel file|*.csv";
+            ofd.FilterIndex = 1;
+
+            if (ofd.ShowDialog() == true)
+            {
+                AutoCADCommands.AllParcels.Clear();
+                ListOfAddedParcels.Clear();
+
+                string line = string.Empty;
+
+                System.IO.StreamReader reader = new System.IO.StreamReader(ofd.FileName);
+                while ((line = reader.ReadLine()) != null && line != string.Empty)
+                {
+                    string[] csvValues = line.Split(',');
+                    ObjectId id = AutoCADFunctions.GetObjectIdFromHandleString(csvValues[0]);
+                    int number = Convert.ToInt32(csvValues[1]);
+                    string name = csvValues[2];
+                    int sold = Convert.ToInt32(csvValues[3]);
+                    if (id != ObjectId.Null)
+                    {
+                        Classes.ParcelObject po = new Classes.ParcelObject(id, number);
+                        po.Name = name;
+                        po.IsSold = sold;
+
+                        AutoCADCommands.AllParcels.Add(po);
+                        ListOfAddedParcels.Add(number);
+                    }
+                }
+                reader.Close();
+            }
         }
 
         private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

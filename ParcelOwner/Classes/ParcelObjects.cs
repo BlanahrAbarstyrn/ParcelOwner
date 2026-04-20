@@ -41,9 +41,19 @@ namespace ParcelOwner.Classes
         }
 
         // * * * * * * * * * * * * * * * Functions
-        public string Export() // TODO: finish so it doesn't return an empty string
+        public string Export()
         {
-            return string.Empty;
+            string name = Name.Replace(',', '-');
+            string sep = ",";
+
+            string result = ID.Handle.ToString() + sep +
+                Number.ToString() + sep +
+                name + sep +
+                IsSold.ToString() + sep +
+                Area.ToString("F1") + sep +
+                TotalPriceAsstring;
+
+            return result;
         }
 
         private double GetPolylineArea()
