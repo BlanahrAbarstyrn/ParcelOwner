@@ -158,6 +158,21 @@ namespace ParcelOwner.Forms
                             Information = "Parcel is sold to " + po.Name;
                         }
 
+                        // Highlight object
+                        using (Autodesk.AutoCAD.ApplicationServices.DocumentLock acLckDoc =
+                            Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.LockDocument())
+                        {
+                            using (Transaction tr = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.TransactionManager.StartTransaction())
+                            {
+                                Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.Regen();
+                                Polyline pline = tr.GetObject(po.ID, OpenMode.ForWrite) as Polyline;
+                                pline.Highlight();
+                                tr.Commit();
+
+                                Autodesk.AutoCAD.Internal.Utils.SetFocusToDwgView();
+                            }
+                        }
+                        
                         break;
                     }
                 }
